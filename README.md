@@ -6,6 +6,6 @@ You must fill in the channel you want to send your votes in, the username of the
 
 You can post to any chat you have the privilege to post regular messages.
 
-Twitch doesn't allow direct password logins through their Twitch IRC API, so you'll need to use the oauth token to login (it's a replacement for your password for Twitch chat. Keep it safe as you would keep your password!).
+Twitch doesn't allow direct password logins through their Twitch IRC API, so you'll need to use the oauth token to login (it's a replacement for your password so treat it like your password!).
 
-You can generate your oauth token, for example, in here https://twitchapps.com/tmi/
+You can generate your oauth token in here https://twitchapps.com/tmi/
