@@ -11,6 +11,7 @@ from pynput import keyboard
 # Initializing global variables
 settingsFile = "config.json"
 debug = "True"
+maxRetrys = 5
 
 host = "irc.twitch.tv"
 port = 6667
@@ -39,7 +40,7 @@ default = json.dumps({
 	, indent=4)
 
 # Initializing socket for connecting to 
-s = socket.socket()
+s = ""
 
 # Reads the first line from the auth.ini file, placed in the working folder, and places the first line to the 
 def checkSettings():
@@ -95,6 +96,9 @@ def checkSettings():
 			print("Failed to create %s"%settingsFile)
 	
 def connectIRC():
+	global s
+	s = socket.socket()
+	
 	s.connect((host, port))
 	
 	msg = "PASS " + oauth + "\r\n"
@@ -106,11 +110,25 @@ def connectIRC():
 	msg = "JOIN #" + channel + "\r\n"
 	s.send(msg.encode())
 	
-def sendMessage(msg):
+def sendMessage(msg, retry=0):
 	#if msg != "False":
+	
 	sendThis = "PRIVMSG #" + channel +  " :" + msg + "\r\n"
-	s.send(sendThis.encode())
-	print("Sent message %s"%msg)
+	try:
+		s.send(sendThis.encode())
+		print("Sent message %s"%msg)
+	except:
+		if maxRetrys > retry:
+			r = 0 + retry
+			print("Retrying connection...")
+			
+			s.shutdown(2)
+			s.close()
+			connectIRC()
+			sendMessage(msg, r)
+		else:
+			print("Failed to send message.")
+		
 
 def checkKey(key):
 	switcher = {
@@ -137,6 +155,8 @@ def on_release(key):
 print("########## TwitchMode ##########")
 # Check settings
 checkSettings()
+
+print("######### Ready to vote ########")
 
 # Connect to Twitch chat
 if debug != "True":						# Check if debugging
