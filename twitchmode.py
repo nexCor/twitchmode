@@ -22,6 +22,7 @@ keyA = ""
 keyB = ""
 keyC = ""
 keyD = ""
+keyE = ""
 
 default = json.dumps({
 	"host": "irc.twitch.tv",
@@ -33,6 +34,7 @@ default = json.dumps({
 	"keyB":"Key.f2",
 	"keyC":"Key.f3",
 	"keyD":"Key.f4",
+	"keyE":"Key.f5",
 	"debug":"False"}
 	, indent=4)
 
@@ -55,6 +57,7 @@ def checkSettings():
 		global keyB
 		global keyC
 		global keyD
+		global keyE
 		
 		global debug
 		
@@ -68,6 +71,7 @@ def checkSettings():
 		keyB = data["keyB"]
 		keyC = data["keyC"]
 		keyD = data["keyD"]
+		keyE = data["keyE"]
 		
 		debug = data["debug"]
 		
@@ -113,7 +117,8 @@ def checkKey(key):
 		keyA:"#A",
 		keyB:"#B",
 		keyC:"#C",
-		keyD:"#D"
+		keyD:"#D",
+		keyE:"#E"
 	}
 	if switcher.get(key, "False") != "False":
 		sendMessage(switcher.get(key, "False"))
